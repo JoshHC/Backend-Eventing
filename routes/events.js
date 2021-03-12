@@ -1,20 +1,16 @@
 import express from 'express';
+import {createEvent, getEvent, getEvents, deleteEvent, updateEvent} from '../controllers/events.js';
 
 const router = express.Router();
 
-const events = [
-    {
-        "nombre": "Coldplay Concert",
-        "Ubicación": "Ciudad Cayala"
-    }
-]
+router.get('/', getEvents);
 
-router.get('/', (req,res) => {
-    console.log(events);
-} );
+router.post('/', createEvent);
 
-router.post('/', (req, res) => {
+router.get('/:id', getEvent)
 
-});
+router.delete('/:id', deleteEvent);
+
+router.patch('/:id', updateEvent);
 
 export default router;
