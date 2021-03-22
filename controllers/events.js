@@ -32,11 +32,10 @@ export const deleteEvent = (req, res) => {
     if (events != undefined) {
         res.sendStatus(204);
     }
-    else
-    {
+    else {
         res.sendStatus(404);
     }
-       
+
 }
 
 export const updateEvent = (req, res) => {
