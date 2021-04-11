@@ -7,27 +7,14 @@ export const getEvents = async (req, res) => {
 
     try {
         const events = await Event.find();
-        res.json(events);
-        //console.log(events);
-        //res.send(events);
-        res.sendStatus(200);
+        res.json(events).sendStatus(200);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 }
 
 export const getEvent = async (req, res) => {
-
-    const response = await getEventFunction(req, res);
-    res.json(response);
-    //const { id } = req.params;
-    //const foundevent = events.find((event) => event.id == id);
-    /*if (foundevent != undefined) {
-        res.send(foundevent);
-    }
-    else {
-        res.sendStatus(404);
-    }*/
+    res.json(res.event);
 }
 
 export const createEvent = async (req, res) => {
@@ -49,59 +36,47 @@ export const createEvent = async (req, res) => {
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
-    //const event = req.body;
-    //events.push({ id: uuidv4(), ...event });
-    //res.sendStatus(201);
 }
 
 export const deleteEvent = async (req, res) => {
 
-    try {  
-        const { id } = req.params;
-        await Event.remove({id: id});
-        res.json({message: "Event Deleted"});
+    try {
+        await res.event.remove();
+        res.json({ message: "Event Deleted" });
 
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-
-    /*const { id } = req.params;
-    events = events.filter((event) => event.id !== id);
-    if (events != undefined) {
-        res.sendStatus(204);
-    }
-    else {
-        res.sendStatus(404);
-    }*/
-
 }
 
-export async function getEventFunction(req, res) {
-    let event;
+export const updateEvent = async (req, res) => {
+
+    if (req.body.nombre != null) {
+        res.event.nombre = req.body.nombre;
+    }
+    if (req.body.descripcion != null) {
+        res.event.descripcion = req.body.descripcion;
+    }
+    if (req.body.inicio != null) {
+        res.event.inicio = req.body.inicio;
+    }
+    if (req.body.fin != null) {
+        res.event.fin = req.body.fin;
+    }
+    if (req.body.boletos != null) {
+        res.event.boletos = req.body.boletos;
+    }
+    if (req.body.fotografia != null) {
+        res.event.fotografia = req.body.fotografia;
+    }
+    if (req.body.ubicacion != null) {
+        res.event.ubicacion = req.body.ubicacion;
+    }
+
     try {
-        event = await Event.find({ id: req.params.id })
-        if (event == null) {
-            return res.status(404).json({ message: "Cannot find Event" })
-        }
+        const updatedEvent = await res.event.save();
+        res.json(updateEvent).sendStatus(204);
     } catch (err) {
-        return res.status(500).json({ message: err.message })
-    }
-
-    return event;
-}
-
-export const updateEvent = (req, res) => {
-    const { id } = req.params;
-    const { nombre, ubicacion } = req.body;
-
-    const event = events.find((event) => event.id == id);
-    if (event != undefined) {
-        if (nombre) event.nombre = nombre;
-        if (ubicacion) event.ubicacion = ubicacion;
-        console.log(nombre, ubicacion);
-        res.sendStatus(204);
-    }
-    else {
-        res.sendStatus(404);
+        res.status(400).json({ message: err.message })
     }
 }
