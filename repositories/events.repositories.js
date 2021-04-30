@@ -10,7 +10,11 @@ const getEvents = async () => {
 }
 
 const deleteEvent = async (res) => {
-    return await res.event.remove();
+    try {
+        return await res.event.remove();
+    } catch (error) {
+        return console.log(error);
+    }
 }
 
 const updateEvent = async (req, res) => {
@@ -36,7 +40,6 @@ const updateEvent = async (req, res) => {
     if (req.body.ubicacion != null) {
         res.event.ubicacion = req.body.ubicacion;
     }
-
     return res.event.save();
 }
 
@@ -47,7 +50,7 @@ const eventsrepository = {
 async function getEventFunction(req, res, next) {
     let event;
     try {
-        event = await Event.findById(req.params.id);
+        event = await Event.findOne({ id: req.params.id });
         if (event == null) {
             return res.status(404).json({ message: "Cannot find Event" })
         }

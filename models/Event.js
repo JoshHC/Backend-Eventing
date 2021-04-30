@@ -2,36 +2,28 @@ import mongoose from 'mongoose';
 
 const EventSchema = new mongoose.Schema({
     id: {
-        type: String,
-        required: true
+        type: String
     },
     nombre: {
-        type: String,
-        required: true
+        type: String
     },
     descripcion: {
-        type: String,
-        required: true
+        type: String
     },
     inicio: {
-        type: String,
-        required: true
+        type: String
     },
     fin: {
-        type: String,
-        required: true
+        type: String
     },
     boletos: {
-        type: String,
-        required: true
+        type: String
     },
     fotografia: {
-        type: String,
-        required: true
+        type: String
     },
     ubicacion: {
-        type: String,
-        required: true
+        type: String
     }
 })
 
