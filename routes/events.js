@@ -5,7 +5,7 @@ import { createEvent, getEvent, getEvents, deleteEvent, updateEvent } from '../c
 
 const router = express.Router();
 
-router.get('/', getEvents);
+router.get('/', Authenticate, getEvents);
 
 router.post('/', Authenticate, createEvent);
 
