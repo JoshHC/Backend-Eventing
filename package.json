@@ -28,7 +28,10 @@
     "mocha": "^8.3.2",
     "mongodb": "^3.6.5",
     "mongoose": "^5.12.1",
+    "redis": "^3.1.2",
     "sinon": "^10.0.0",
+    "swagger-jsdoc": "^7.0.0-rc.6",
+    "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

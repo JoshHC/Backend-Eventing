@@ -57,7 +57,7 @@ const Login = (req, res, next) => {
                         })
                         return;
                     } else {
-                        res.json({
+                        res.status(401).json({
                             message: 'La contraseña es inválida'
                         })
                         return;

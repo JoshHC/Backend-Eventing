@@ -5,14 +5,14 @@ import { createEvent, getEvent, getEvents, deleteEvent, updateEvent } from '../c
 
 const router = express.Router();
 
-router.get('/', Authenticate, getEvents);
+router.get('/', getEvents);
 
 router.post('/', Authenticate, createEvent);
 
-router.get('/:id', Authenticate, eventsrepository.getEventFunction, getEvent);
+router.get('/:id', Authenticate, eventsrepository.validateredis, getEvent);
 
-router.delete('/:id', Authenticate, eventsrepository.getEventFunction, deleteEvent);
+router.delete('/:id', Authenticate, eventsrepository.validateredis, deleteEvent);
 
-router.patch('/:id', Authenticate, eventsrepository.getEventFunction, updateEvent);
+router.patch('/:id', Authenticate, eventsrepository.validateredis, updateEvent);
 
 export default router;

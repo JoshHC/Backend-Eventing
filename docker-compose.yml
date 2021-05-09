@@ -2,20 +2,22 @@ version: '3.7'
 
 services:
 
-    react:
-        container_name: Eventing-Frontend
-        image: eventingfront
-        ports: 
-            - 5000:8080
-        environment: 
-            - CHOKIDAR_USEPOLLING=true
-        depends_on: 
-            - express
+    redis:
+        image: redis
+        container_name: redis
+        expose: 
+            - 6379
 
     express:
         container_name: Eventing-Backend
-        image: eventingback
+        image: eventingback:dev
         ports: 
-            - 3000:8000
+            - 5000:5000
         environment: 
             - CHOKIDAR_USEPOLLING=true
+        links:
+            - redis
+
+    
+            
+            
