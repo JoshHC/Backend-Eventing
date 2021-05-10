@@ -2,7 +2,7 @@ import redis from 'redis';
 
 const client = redis.createClient({
     port: 6379,
-    host: 'redis'
+    host: 'localhost'
 });
 
 client.on("connect", function(error) {

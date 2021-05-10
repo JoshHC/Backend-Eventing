@@ -32,6 +32,6 @@ app.use(bodyParser.json());
 app.use('/user', AuthRoute);
 app.use('/events', eventsRoutes);
 
-app.get('/', (req, res) => res.send('Laboratorio de Node Js con Express'));
+app.get('/', (req, res) => res.status(200).end());
 
 app.listen(PORT, () => console.log(`Server Running on port: http:localhost:${PORT}`));
