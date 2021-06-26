@@ -72,9 +72,14 @@ const Login = (req, res, next) => {
         })
 }
 
-const AuthController = {
-    Register, Login
+const checkToken = (req, res, next) => {
+    res.status(200).json({
+        message: 'Token valido'
+    })
 }
 
+const AuthController = {
+    Register, Login, checkToken
+}
 
 export default AuthController
