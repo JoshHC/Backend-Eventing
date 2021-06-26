@@ -1,5 +1,4 @@
 import Event from '../models/Event.js';
-import client from '../helpers/init_redis.js'
 
 const createEvent = async (newEvent) => {
     const event = new Event(newEvent)
@@ -7,7 +6,6 @@ const createEvent = async (newEvent) => {
 }
 
 const getEvents = async () => {
-
     return await Event.find();
 }
 
@@ -48,24 +46,7 @@ const updateEvent = async (req, res) => {
 }
 
 const eventsrepository = {
-    createEvent, getEvents, deleteEvent, updateEvent, getEventFunction, validateredis
-}
-
-
-function validateredis(req, res, next) {
-    let event;
-    client.exists(req.params.id, function (err, reply) {
-        if (reply == 1) {
-            client.get(req.params.id, function (err, reply) {
-                console.log('Exists already in Redis')
-                res.event = JSON.parse(reply)
-                next();
-            })
-        }
-        else {
-            getEventFunction(req, res, next);
-        }
-    })
+    createEvent, getEvents, deleteEvent, updateEvent, getEventFunction
 }
 
 async function getEventFunction(req, res, next) {
@@ -74,18 +55,13 @@ async function getEventFunction(req, res, next) {
         event = await Event.findOne({ id: req.params.id });
         if (event == null) {
             return res.status(404).json({ message: "Cannot find Event" })
-        }
-        else {
-            client.set(req.params.id, JSON.stringify(event), function (err, reply) {
-                console.log("Not exists in Redis, adding to Redis...");
-            })
+        }else {
+            res.event = event
+            next()
         }
     } catch (err) {
         return res.status(500).json({ message: err.message })
     }
-    res.event = event
-    next()
 }
-
 
 export default eventsrepository
