@@ -1,19 +1,34 @@
-import Event from '../models/Event.js';
+import dynamoClient from '../config/db.js'
 
 const createEvent = async (newEvent) => {
-    const event = new Event(newEvent)
-    return await event.save();
+    const params = {
+        TableName: process.env.TABLE_NAME,
+        Item: newEvent
+    }
+    return dynamoClient.put(params).promise();
 }
 
 const getEvents = async () => {
-    return await Event.find();
+    //get Events
+    const params = {
+        TableName: process.env.TABLE_NAME       
+    }
+    const events = await dynamoClient.scan(params).promise();
+    return events.Items;
 }
 
-const deleteEvent = async (res) => {
+const deleteEvent = async (id) => {
     try {
-        return await res.event.remove();
-    } catch (error) {
-        return console.log(error);
+        const id = req.params.id;
+        const params = {
+            TableName: process.env.TABLE_NAME,
+            Key:{
+                id
+            }
+        }
+        return  await dynamoClient.delete(params).promise();
+    } catch (err) {
+        return console.log(err.message);
     }
 }
 
@@ -41,8 +56,9 @@ const updateEvent = async (req, res) => {
         if (req.body.ubicacion != null) {
             res.event.ubicacion = req.body.ubicacion;
         }
+        return await createEvent(res.event);
     } catch (ex) { return console.log(ex) }
-    return res.event.save();
+    
 }
 
 const eventsrepository = {
@@ -52,11 +68,18 @@ const eventsrepository = {
 async function getEventFunction(req, res, next) {
     let event;
     try {
-        event = await Event.findOne({ id: req.params.id });
-        if (event == null) {
+        const id = req.params.id;
+        const params = {
+            TableName: process.env.TABLE_NAME,
+            Key:{
+                id
+            }
+        }
+        event = await dynamoClient.get(params).promise()
+        if (event.Item == null) {
             return res.status(404).json({ message: "Cannot find Event" })
         }else {
-            res.event = event
+            res.event = event.Item
             next()
         }
     } catch (err) {

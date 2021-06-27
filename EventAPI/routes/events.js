@@ -10,7 +10,7 @@ router.post('/', createEvent);
 
 router.get('/:id', eventsrepository.getEventFunction, getEvent);
 
-router.delete('/:id', eventsrepository.getEventFunction, deleteEvent);
+router.delete('/:id', deleteEvent);
 
 router.patch('/:id', eventsrepository.getEventFunction, updateEvent);
 

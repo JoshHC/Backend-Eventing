@@ -48,15 +48,16 @@ export const createEvent = async (req, res) => {
     }
     try {
         const newEvent = await eventsrepository.createEvent(event);
-        return res.send(`Event with the following name: ${newEvent.nombre} inserted`);
+        return res.send(`Event with the following name: ${event.nombre} inserted`);
     } catch (err) {
         return res.status(400).json({ message: err.message });
     }
 }
 
-export const deleteEvent = async (req, res, next) => {
+export const deleteEvent = async (req, res) => {
     try {
-        await eventsrepository.deleteEvent(res);
+        const id = req.params.id;        
+        const data = await eventsrepository.deleteEvent(id);
         return res.status(200).json({ message: "Event Deleted" });
     } catch (err) {
         return res.status(500).json({ message: err.message });
@@ -65,9 +66,8 @@ export const deleteEvent = async (req, res, next) => {
 
 export const updateEvent = async (req, res) => {
     try {
-        // console.log(res.event)
         const updatedEvent = await eventsrepository.updateEvent(req, res);
-        // console.log(updatedEvent);
+
         return res.status(204).json({ message: "Event Updated" });
     } catch (err) {
         return res.status(400).json({ message: err.message })
