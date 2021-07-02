@@ -6,25 +6,8 @@ let events = []
 
 export const getEvents = async (req, res) => {
     try {
-
-        http.get('http://localhost:5050/user/check', (resp) => {
-            let data = '';
-
-            // Concatinate each chunk of data
-            resp.on('data', (chunk) => {
-                data += chunk;
-            });
-
-            // Once the response has finished, do something with the result
-            resp.on('end', () => {
-                console.log(JSON.parse(data));
-            });
-        })
-        
-        var req1 = http.request(options);
-        console.log(req1);
         let events;
-        events = await eventsrepository.getEvents();     
+        events = await eventsrepository.getEvents();   
         res.status(200).json(events);
     } catch (err) {
         res.status(500).json({ message: err.message });

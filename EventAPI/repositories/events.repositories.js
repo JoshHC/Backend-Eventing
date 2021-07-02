@@ -19,7 +19,7 @@ const getEvents = async () => {
 
 const deleteEvent = async (id) => {
     try {
-        const id = req.params.id;
+        // const id = req.params.id;
         const params = {
             TableName: process.env.TABLE_NAME,
             Key:{
